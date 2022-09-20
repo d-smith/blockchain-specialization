@@ -50,6 +50,33 @@ The founders of Ethereum developed smart contract keeping Nick Szabo's idea of a
 
  * http://www.fon.hum.uva.nl/rob/Courses/InformationInSpeech/CDROM/Literature/LOTwinterschool2006/szabo.best.vwh.net/smart_contracts_2.html
  * https://blockgeeks.com/guides/solidity/
- * http://remix.readthedocs.io/en/latest/
+ * https://remix-ide.readthedocs.io/en/latest/
 
- 
+
+## Smart Contracts Defined
+
+For currency transfer, the verification and validation, we're just checking the existence and validity of UTXOs, the balances, and the structural characteristics. When a chain is thrown open for an arbitrary decentralized application requiring trust and immutable recording, conditions to be verified and validated become application-specific. At the completion of this lesson, you will be able to define the structure of a smart contract, apply this knowledge to understand with a real contract written in Solidity language, use a web development environment Remix to invoke and interact with a smart contract. Structural and meta-level attributes of a transaction are verified at the blockchain protocol level. How were the application-specific constraints? The answer is in the critical role played by the smart contract. Smart contract work with the application-specific semantics and constraints of the transaction and verify, validates, and executes them. Most of all, since it is deployed on the blockchain, the smart contract leverages the immutable recording and trust model of the blockchain. Since a smart contract is deployed in the blockchain, it is an immutable piece of code, and once deployed, it cannot be changed. We will have to redeploy the code as a new smart contract, or somehow redirect the calls from a old contract to the new one. Smart contract can store variables in it called state variables. We could retrieve how these variables change over the blocks. 
+
+Contract in the Ethereum blockchain has pragma directive, name of the contract, data or the state variable that define the state of the contract, collection of function to carry out the intent of a smart contract. Other items, we'll discuss in the later lessons. Identifiers representing these elements are restricted to ASCII character set. Make sure you select meaningful identifiers and follow camel case convention in naming them. We'll learn these concepts using simple contracts written in high level language called Solidity. We will use a web integrated development environment, IDE, called Remix to create, deploy, execute, and explore the working of few representative smart contracts. Welcome to Remix IDE. This is available at Remix.ethereum.org. Here is the environment that is available as a web interface. On the left side, you see the file browser, where you can see all the smart contracts that you have created. You can create a new one, and it'll have an entry here. In the middle is the editor window, where you'll type in the smart contract. At the bottom is a console or the output window. On the right side, you have the tools compile, run, settings, analysis, debugger, and support. At the bottom will be the web interface, and ability to create a smart contract will be somewhere in this middle. With all these features, Remix is indeed a one-stop environment to develop, deploy, and test a smart contract. We will examine two very simple smart contracts, greeter and one integer storage, simple storage. These two examples are modified versions of the example given in Solidity documentation. Our goal is to get an overview of the structure of a smart contract without getting into the details of the Solidity language. However, we'll explain every item in the smart contract we plan to explore. Let's look at three steps in the development of a smart contract: design, code, and test. Here is the design of the Greeter contract. This is the Hello World of smart contract. Greeter has a string variable named yourName, the constructor Greeter, a set function to set the name, and a hello function that returns a string name so that you can use it to greet the world. Here, we see the code for the Greeter contract. It begins with the pragma that provides a version number so that the compiler knows which version of Solidity this was developed in. You also see the name of the contract Greeter, the state variable yourName. Note that it is in camel notation. This is followed by functions, the constructor Greeter that initializes yourName variable, set function that sets a variable to a name supplied by the users message as a parameter, and a hello function that retrieves the name for use by the invoking application. Remix is where we test. Now, let's look at the Greeter contract. Here is a Greeter contract. At the first line, you see pragma Solidity. This provides the version of the Solidity. Then, it starts with the contract name, followed up by the data or the state variables, followed up by the functions. There are three functions here: Greeter, which is a constructor, and a set function which is setting the data variable, and then, a hello function which extracts the values of the state variable and returns it. The state variable here is yourName and it has a public visibility modifier, and the function Greeter, the constructor initializes yourName to World, and the function set initializes yourName to the name provided by the sender. Hello returns whatever value that was set in the state variable. Let's run it and see. I'm going to start by compiling it, and then, running it. When I run, I have to deploy the smart contract on a JavaScript VM. I'm going to change it to JavaScript VM, and I'm going to create it. When I create it, this is the web interface where you will see all the public variables. YourName is a public variable that's available there. Hello is a public function that is available there, and set is another public function that is available there. When I just simply say yourName, the current yourName given is World that shows up. I'm going to set the name to Buffalo. If I set the name to Buffalo and I click on yourName, yourName shows up at Buffalo. If I click on the function hello, hello will return the current yourName that happens to be Buffalo, and it will show up.
+
+
+```
+    pragma solidity >=0.4.0;
+
+    contract Greeter {
+        string public yourName;
+
+        constructor()  {
+            yourName = "World";
+        }
+
+        function set(string memory name ) public {
+            yourName = name;
+        }
+
+        function hello() public view returns (string memory)  {
+            return yourName;
+        }
+    }
+
+```
