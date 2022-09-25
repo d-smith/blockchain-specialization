@@ -225,3 +225,62 @@ Linkage:
 * https://www.youtube.com/watch?v=KkN1O8TChbM
 * https://www.youtube.com/watch?v=xWKq86PWG0o
 
+### Basic Data Types and Structure
+
+Solidity supports many of the basic types of a high-level language. 
+Default modifier is private. You explicitly state the public modifier, if that is what is intended. 
+For every data declared public, accessor or getter function is automatically provided. 
+
+The common statements available in any high-level language are available in solidity with very little variation. Assignment statement, if-else, why, for, etcetera.
+
+ 
+ The bidder smart contract design is shown as a class diagram. It has three items; name of the contract, the data or states, the functions. The first version of the bidder contract, we add the data. The next thing that we want to do is look at the bidder data, and only the data. 
+ 
+ First version:
+
+ ```
+ pragma solidity ^0.4.0; 
+
+contract Bidder {
+    string public name;
+    uint public bidAmount = 20000;
+    bool public eligible;
+    uint constant minBid = 1000;
+}
+```
+
+Next add the functions. Second version:
+
+```
+pragma solidity ^0.4.0; 
+
+contract Bidder {
+    string public name;
+    uint public bidAmount = 20000;
+    bool public eligible;
+    uint constant minBid = 1000;
+
+    function setName(string nm) public {
+        name = nm;
+    }
+
+    function setBidAmount(uint amt) public {
+        bidAmount = amt;
+    }
+
+    function determineBidElegibility() public {
+        if(bidAmount >= minBid) eligible = true;
+        else eligible = false;
+    }
+}
+```
+
+Linkage:
+
+* https://solidity.readthedocs.io/en/v0.4.24/frequently-asked-questions.html
+* http://solidity.readthedocs.io/en/develop/types.html
+
+
+
+ 
+ 
