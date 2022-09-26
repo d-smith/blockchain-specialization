@@ -281,6 +281,123 @@ Linkage:
 * http://solidity.readthedocs.io/en/develop/types.html
 
 
+### Specific Data Types
+ 
+ * Address is a special Solidity define composite data type. It can hold a 20-byte ethereum address. Recall address is a reference address to access a smart contract. Address data structure also contains the balance of the account in Wei. It also supports a function transfer, to transfer a value to a specific address. 
+ * Mapping is a very versatile data structure that is similar to a key value store, it also can be thought of as a hash table. The key is typically a secure hash of a simple Solidity data type such as address and the value in key-value pair can be any arbitrary type. 
+ * Message is a complex data type specific to smart contract. It represents the call that can be used to invoke a function of a smart contract. It supports many attributes of which we are interested in two of them now, msg.sender that holds the address of the sender, msg.value that has the value in Wei sent by the sender. 
+ 
+ 
 
- 
- 
+ The coin contract
+
+ ```
+ pragma solidity ^0.4.0; 
+
+contract Coin {
+    address public minter;
+    mapping (address => uint) public balances;
+
+    event Sent(address from, address to, uint amount);
+
+    function Coin() public {
+        minter = msg.sender;
+    }
+
+    function mint(address receiver, uint amount)  public {
+        if(msg.sender != minter) return;
+        balances[receiver] += amount;
+    }
+
+    function send(address receiver, uint amount) public {
+        if(balances[msg.sender] < amount ) return;
+        balances[msg.sender] -= amount;
+        balances[receiver] += amount;
+        Sent(msg.sender, receiver, amount);
+    }
+} 
+```
+
+From the compiler:
+
+```
+
+ from solidity:
+contracts/Coin.sol:9:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
+    function Coin() public {
+    ^ (Relevant source part starts here and spans across multiple lines).
+
+    from solidity:
+contracts/Coin.sol:22:9: Warning: Invoking events without "emit" prefix is deprecated.
+        Sent(msg.sender, receiver, amount);
+        ^--------------------------------^
+```
+
+Fixed:
+
+```
+pragma solidity ^0.4.0; 
+
+contract Coin {
+    address public minter;
+    mapping (address => uint) public balances;
+
+    event Sent(address from, address to, uint amount);
+
+    constructor() public {
+        minter = msg.sender;
+    }
+
+    function mint(address receiver, uint amount)  public {
+        if(msg.sender != minter) return;
+        balances[receiver] += amount;
+    }
+
+    function send(address receiver, uint amount) public {
+        if(balances[msg.sender] < amount ) return;
+        balances[msg.sender] -= amount;
+        balances[receiver] += amount;
+        emit Sent(msg.sender, receiver, amount);
+    }
+} 
+```
+
+And the latest example:
+
+```
+pragma solidity ^0.8.4;
+contract Coin {
+    address public minter;
+    mapping (address => uint) public balances;
+    event Sent(address from, address to, uint amount);
+
+    constructor() {
+        minter = msg.sender;
+    }
+
+    function mint(address receiver, uint amount) public {
+        require(msg.sender == minter);
+        balances[receiver] += amount;
+    }
+
+    error InsufficientBalance(uint requested, uint available);
+
+    function send(address receiver, uint amount) public {
+        if (amount > balances[msg.sender])
+            revert InsufficientBalance({
+                requested: amount,
+                available: balances[msg.sender]
+            });
+        balances[msg.sender] -= amount;
+        balances[receiver] += amount;
+        emit Sent(msg.sender, receiver, amount);
+    }
+}
+```
+
+Linkage:
+
+* https://www.youtube.com/watch?v=8UhO3IKApSg
+* http://solidity.readthedocs.io/en/develop/units-and-global-variables.html
+* https://ethereumbuilders.gitbooks.io/guide/content/en/solidity_tutorials.html
+
