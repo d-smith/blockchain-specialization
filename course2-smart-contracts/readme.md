@@ -401,3 +401,65 @@ Linkage:
 * http://solidity.readthedocs.io/en/develop/units-and-global-variables.html
 * https://ethereumbuilders.gitbooks.io/guide/content/en/solidity_tutorials.html
 
+
+### Data Structures
+
+Struct
+
+* Struct is a composite data type of a group of related data that can be referenced by a single, meaningful, collective name. Individual elements of the struct can be accessed using the dot notation. 
+
+Ballot Smart Contract
+
+
+
+```
+pragma solidity ^0.4.0; 
+
+
+contract Ballot {
+
+    struct Voter {
+        uint weight;
+        bool voted;
+        uint8 vote;
+    }
+
+    struct Proposal {
+        uint voteCount;
+    }
+
+    address chairperson;
+    mapping(address => Voter) voters;
+    Proposal[] proposals;
+
+    constructor(uint8 _numProposals) public {
+        chairperson = msg.sender;
+        voters[chairperson].weight = 2;
+        proposals.length = _numProposals;
+    }
+
+    function register(address toVoter) public {
+        if(msg.sender != chairperson || voters[toVoter].voted) return;
+        voters[toVoter].weight = 1;
+        voters[toVoter].voted = false;
+    }
+
+    function vote(uint8 toProposal) public {
+        Voter storage sender = voters[msg.sender];
+        if(sender.voted || toProposal >= proposals.length) return;
+        sender.voted = true;
+        sender.vote = toProposal;
+        proposals[toProposal].voteCount += sender.weight;
+    }
+
+    function winningProposal() public constant returns (uint _winningProposal) {
+        uint256 winningVoteCount = 0;
+        for(uint p=0; p < proposals.length; p++) {
+            if (proposals[p].voteCount > winningVoteCount) {
+                winningVoteCount = proposals[p].voteCount;
+                _winningProposal = p;
+            }
+        }
+    }
+}
+```
