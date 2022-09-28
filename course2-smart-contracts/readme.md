@@ -463,3 +463,17 @@ contract Ballot {
     }
 }
 ```
+
+
+Time
+
+* In a blockchain application, all the participants and nodes have to synchronize to one universal time. For this purpose, blockchain proposals include a time server that serves the Unix Epoch time or time since January 1st 1970 in seconds. 
+* This time is used in timestamping the block time. When a block is added to the blockchain, all the transaction confirmed by the block also have the same block time as their confirmation time. 
+* A variable called "Now" defined by solidity, returns the block timestamp. This variable is often used for evaluating time related conditions. 
+* The now variable in a function is not the time at which function transaction was initiated, but it is the time when it was confirmed. 
+* Time is defined as unit time; seconds, minutes, hours, days, weeks and years.
+
+Enum data types
+
+* Enum or enumerator data type, allows for user defined data types with limited set of meaningful values. It is mostly used for internal use and are not supported currently at the ABI level of solidity. However, it serves an important purpose of defining states or phases of a smart contract. 
+
