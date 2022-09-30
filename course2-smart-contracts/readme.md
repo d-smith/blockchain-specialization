@@ -508,3 +508,9 @@ contract StateTransV2 {
     }
 }
 ```
+
+Linkage
+
+* http://solidity.readthedocs.io/en/develop/types.html
+* http://solidity.readthedocs.io/en/develop/types.html#enums
+* https://beta.techcrunch.com/2018/02/24/liquid-democracy-uses-blockchain/
