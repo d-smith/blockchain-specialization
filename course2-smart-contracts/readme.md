@@ -636,3 +636,23 @@ Linkage
 
 * http://solidity.readthedocs.io/en/develop/contracts.html
 
+## Putting it All Together
+
+Learning Objectives
+
+* Write a smart contract.
+* Analyze a problem statement to design and implement a smart contract.
+* Program smart contracts using Solidity language and Remix IDE.
+* Add features to the Ballot smart contract code.
+
+### Developing Smart Contracts
+
+Basic approach:
+
+Begin with a problem statement, analyze the problem to come up with a basic design, its state variables and functions, recall our principle from the last lesson, design first, represent the design using a class diagram. Based on the problem statement, define the visibility for the state variables and functions. Based on the requirements, define the access modifiers for the functions, define validation for input variables of the functions, define conditions that must hold true on completion of critical operations within functions, declaratively express the conditions that were discovered in steps four to seven using access modifiers, visibility modifiers require an assert classes.
+
+Major differences from the traditional object oriented analysis is in the smart contract specific data types, such as address and the message sender.
+
+Linkage:
+
+* https://soliditycookbook.com/voting/
