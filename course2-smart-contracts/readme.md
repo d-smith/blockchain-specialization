@@ -656,3 +656,75 @@ Major differences from the traditional object oriented analysis is in the smart 
 Linkage:
 
 * https://soliditycookbook.com/voting/
+
+
+### Time Elements - Part 1
+
+Let us re-examine the ballot contract developed in the last lesson. In a typical voting process, voters are registered first. There is usually a deadline for registration, and also for the voting period. For example, for most states in the USA, you have to be registered 30 days before the voting day, and the ordering takes place on a single day for in-person voters. If that is the case, registration has to be completed before voting. The current ballot smart contract does not have these limitations. For example, the function register and the function vote can be called in any order. There are no rules such as the voters have to be registered before they can vote, voting is open only for a specified period, and the winning proposal can be decided only after all the voting is completed. Currently, if you call the winning proposal, it gives the zeroth proposal as the winner before anyone has registered or voted. Now, let us add the stages and the time duration of the stages to the ballot version one. Create a ballot version two, ballot version two.all on Remix, by copying ballots all we created earlier. We add the enum for the stages and logic for modifying the stages within the functions. We will compile and run it and make sure it works as expected. Let's define the stage as enum datatype. Stage is four distinct stages, Init, Reg, Vote, and Done. The stage is initialized to Init at the time of deployment of the Smart Contract. Then, in the constructor, the Init is changed to Reg stage. After the registration period is over, the stage changes to Vote. After the voting duration elapses, the stage is set to Done. Enum, stage, Init, Reg, Vote, and Done. Let's add this logic to the ballot two.soldsmartcontract, and use this to set the stages of the smart contract. We'll also add the time elements. Solidity defines a time variable "now", that is the current block timestamp. We'll add the state variable, startTime, uint startTime. startTime is initialized to now within the constructor. Then, change the stage of the ballot process based on the time allocated for registration and voting stage as shown. We have added the startTime variable, and the period for registration in this case is 10 days. We also added the duration for voting period, in this case it is one day. The now solidity variable is the timestamp of the block, block.timestamp function, in which the transaction is confirmed. Thus, now may not accurately reflect the elapsed time. For approximate intervals, and for testing simple concept, now is a convenient time attribute. In a realistic application, with specific deadlines, a better solution will be to pass the deadlines in a epoch time to the constructor of the smart contract at the time of creation, and compare it with the current block timestamp where needed. Recall that block timestamp is represented by the variable "now".
+
+```
+pragma solidity ^0.4.0;
+contract Ballot {
+
+    struct Voter {
+        uint weight;
+        bool voted;
+        uint8 vote;
+    }
+    struct Proposal {
+        uint voteCount;
+    }
+    enum Stage {Init,Reg, Vote, Done}
+    Stage public stage = Stage.Init;
+    
+    address chairperson;
+    mapping(address => Voter) voters;
+    Proposal[] proposals;
+
+    
+    uint startTime;   
+
+    /// Create a new ballot with $(_numProposals) different proposals.
+    function Ballot(uint8 _numProposals) public  {
+        chairperson = msg.sender;
+        voters[chairperson].weight = 2; // weight is 2 for testing purposes
+        proposals.length = _numProposals;
+        stage = Stage.Reg;
+        startTime = now;
+    }
+
+    /// Give $(toVoter) the right to vote on this ballot.
+    /// May only be called by $(chairperson).
+    function register(address toVoter) public {
+        if (stage != Stage.Reg) {return;}
+        if (msg.sender != chairperson || voters[toVoter].voted) return;
+        voters[toVoter].weight = 1;
+        voters[toVoter].voted = false;
+        if (now > (startTime+ 10 seconds)) {stage = Stage.Vote; startTime = now;}        
+    }
+
+    /// Give a single vote to proposal $(toProposal).
+    function vote(uint8 toProposal) public  {
+        if (stage != Stage.Vote) {return;}
+        Voter storage sender = voters[msg.sender];
+        if (sender.voted || toProposal >= proposals.length) return;
+        sender.voted = true;
+        sender.vote = toProposal;   
+        proposals[toProposal].voteCount += sender.weight;
+        if (now > (startTime+ 10 seconds)) {stage = Stage.Done;}        
+        
+    }
+
+    function winningProposal() public constant returns (uint8 _winningProposal) {
+       if(stage != Stage.Done) {return;}
+        uint256 winningVoteCount = 0;
+        for (uint8 prop = 0; prop < proposals.length; prop++)
+            if (proposals[prop].voteCount > winningVoteCount) {
+                winningVoteCount = proposals[prop].voteCount;
+                _winningProposal = prop;
+            }
+       
+    }
+}
+```
+
