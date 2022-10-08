@@ -728,3 +728,5 @@ contract Ballot {
 }
 ```
 
+The mods to the earlier version is to include sequence/state context,
+checks of state as preconditions based on state prior to executing method code.
