@@ -465,7 +465,7 @@ contract Ballot {
 ```
 
 
-Time
+### Time
 
 * In a blockchain application, all the participants and nodes have to synchronize to one universal time. For this purpose, blockchain proposals include a time server that serves the Unix Epoch time or time since January 1st 1970 in seconds. 
 * This time is used in timestamping the block time. When a block is added to the blockchain, all the transaction confirmed by the block also have the same block time as their confirmation time. 
@@ -658,7 +658,7 @@ Linkage:
 * https://soliditycookbook.com/voting/
 
 
-### Time Elements - Part 1
+### Time Elements
 
 Let us re-examine the ballot contract developed in the last lesson. In a typical voting process, voters are registered first. There is usually a deadline for registration, and also for the voting period. For example, for most states in the USA, you have to be registered 30 days before the voting day, and the ordering takes place on a single day for in-person voters. If that is the case, registration has to be completed before voting. The current ballot smart contract does not have these limitations. For example, the function register and the function vote can be called in any order. There are no rules such as the voters have to be registered before they can vote, voting is open only for a specified period, and the winning proposal can be decided only after all the voting is completed. Currently, if you call the winning proposal, it gives the zeroth proposal as the winner before anyone has registered or voted. Now, let us add the stages and the time duration of the stages to the ballot version one. Create a ballot version two, ballot version two.all on Remix, by copying ballots all we created earlier. We add the enum for the stages and logic for modifying the stages within the functions. We will compile and run it and make sure it works as expected. Let's define the stage as enum datatype. Stage is four distinct stages, Init, Reg, Vote, and Done. The stage is initialized to Init at the time of deployment of the Smart Contract. Then, in the constructor, the Init is changed to Reg stage. After the registration period is over, the stage changes to Vote. After the voting duration elapses, the stage is set to Done. Enum, stage, Init, Reg, Vote, and Done. Let's add this logic to the ballot two.soldsmartcontract, and use this to set the stages of the smart contract. We'll also add the time elements. Solidity defines a time variable "now", that is the current block timestamp. We'll add the state variable, startTime, uint startTime. startTime is initialized to now within the constructor. Then, change the stage of the ballot process based on the time allocated for registration and voting stage as shown. We have added the startTime variable, and the period for registration in this case is 10 days. We also added the duration for voting period, in this case it is one day. The now solidity variable is the timestamp of the block, block.timestamp function, in which the transaction is confirmed. Thus, now may not accurately reflect the elapsed time. For approximate intervals, and for testing simple concept, now is a convenient time attribute. In a realistic application, with specific deadlines, a better solution will be to pass the deadlines in a epoch time to the constructor of the smart contract at the time of creation, and compare it with the current block timestamp where needed. Recall that block timestamp is represented by the variable "now".
 
@@ -730,3 +730,12 @@ contract Ballot {
 
 The mods to the earlier version is to include sequence/state context,
 checks of state as preconditions based on state prior to executing method code.
+
+But... the check in the code records the transaction in the blockchain, regardless of the transaction proceeding or exiting ealier.
+Is there is a way to separate the validation from the actual code that the function executes, is there a way to specify the problem specific rules and condition declaratively, so that they can be independently specified, as well as audited to assure that the smart contract does what it's supposed to do? Auditing of the Smart Contract is specially critical, since a smart contract is expected to be autonomous and permanent, once deployed. We address these issues in the next lesson that is built around problem-specific validation, by using function modifiers, required clause, revert and assert declarations.
+
+Linkage:
+
+* https://solidity.readthedocs.io/en/develop/types.html#enums
+* https://solidity.readthedocs.io/en/develop/units-and-global-variables.html#time-units
+
