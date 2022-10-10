@@ -739,3 +739,23 @@ Linkage:
 * https://solidity.readthedocs.io/en/develop/types.html#enums
 * https://solidity.readthedocs.io/en/develop/units-and-global-variables.html#time-units
 
+### Validation & Test
+
+Solidity features a function revert that results in state-reverting exception. This exception handling will undo all the changes made to the state in the current call and reverses the transaction and also flags an error to the caller
+
+Example - function modifier:
+
+```
+modifier validStage(Stage reqStage)
+    { require(stage == reqStage);
+      _;
+    }
+```
+
+Function modifier reference:
+
+```
+function register(address toVoter) public validStage(Stage.Reg) {
+    etc...
+```
+
