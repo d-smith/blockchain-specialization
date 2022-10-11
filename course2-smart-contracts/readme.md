@@ -759,3 +759,5 @@ function register(address toVoter) public validStage(Stage.Reg) {
     etc...
 ```
 
+I have a single modifier, validStage. Instead of checking the stage inside using if-else statement, which requires the transaction to be executed inside the function, we can prevent that from happening right outside the function using the modifier.
+
