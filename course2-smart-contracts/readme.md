@@ -761,3 +761,25 @@ function register(address toVoter) public validStage(Stage.Reg) {
 
 I have a single modifier, validStage. Instead of checking the stage inside using if-else statement, which requires the transaction to be executed inside the function, we can prevent that from happening right outside the function using the modifier.
 
+Note the use of assert to ensure that after the voting session time is finished, something must have been voted for to be declared the winner - initial version picked the first proposal, this fixes that issue.
+
+```
+function winningProposal() public validStage(Stage.Done) constant returns (uint8 _winningProposal) {
+       //if(stage != Stage.Done) {return;}
+        uint256 winningVoteCount = 0;
+        for (uint8 prop = 0; prop < proposals.length; prop++)
+            if (proposals[prop].voteCount > winningVoteCount) {
+                winningVoteCount = proposals[prop].voteCount;
+                _winningProposal = prop;
+            }
+       assert (winningVoteCount > 0);
+
+    }
+```
+
+
+
+Linkage:
+
+* 
+
