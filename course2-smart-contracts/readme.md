@@ -777,7 +777,10 @@ function winningProposal() public validStage(Stage.Done) constant returns (uint8
     }
 ```
 
+Revert - undoes all state changes and additionally:
 
+1. It will allow you to return a value.
+2. It will refund any remaining gas to the caller.
 
 Linkage:
 
