@@ -781,5 +781,6 @@ function winningProposal() public validStage(Stage.Done) constant returns (uint8
 
 Linkage:
 
-* 
+* https://medium.com/blockchannel/the-use-of-revert-assert-and-require-in-solidity-and-the-new-revert-opcode-in-the-evm-1a3a7990e06e
+
 
