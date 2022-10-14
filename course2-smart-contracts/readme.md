@@ -786,4 +786,244 @@ Linkage:
 
 * https://medium.com/blockchannel/the-use-of-revert-assert-and-require-in-solidity-and-the-new-revert-opcode-in-the-evm-1a3a7990e06e
 
+### Client Applications
+
+Events
+
+* First, a definition of event. A generic format is, event, name of the event, and parameters.
+* Invoking an event is by the name of the event and any parameters.
+
+An event is pushed as opposed to regular function call that is pull to get an action performed. Typically, an event feature is to indicate to a client application, user interface or a transaction monitor that a significant milestone has been reached. The application can listen to the events pushed, using a listener code, to track transactions, to receive results through parameters of the event, initiate a pull request to receive information from the smart contract.
+
+Immutable shared rules - big feature of blockchain
+
+* Embed the rules around the transaction in the transaction itself
+
+Linkage:
+
+* https://media.consensys.net/technical-introduction-to-events-and-logs-in-ethereum-a074d65dd61e
+* https://www.youtube.com/watch?v=L5Au5DY8eL4
+
+## Best Practices
+
+When to use blockchain
+
+* decentralized problems - meaning participants hold the assets and are not co-located
+* peer to peer transactions
+* beyond boundaries of trust among unknown peers
+* require validation, verification, and recording of timestamped, immutable ledger
+* autonomous operations guided by rules and policies
+
+Smart contracts
+
+* Smart contract is not for single node computation. It does not replace your client server or inherently stateless distributed solutions. 
+* Keep the smart contract code simple, coherent, and auditable. Let it solve a single problem well to avoid design and coding errors. In other words, let the state variables and the functions specified in a smart contract be addressing a single problem. 
+* Do not include redundant data or unrelated functions. 
+* Make the smart contract functions auditable by using custom function modifiers instead of inline if-else code for checking pre and post conditions for a function execution. 
+* Smart contracts are usually part of a large distributed application; the part that requires the services provided by the blockchain. Blockchain is not a data repository. Keep only the necessary data in the smart contract.
+
+Contract Design
+
+* Use proper data types based on the EVM 256
+    * VM is 256 VM optimized for integer computations
+* Understand public visibility modifier
+    * Vars private by default but visible for all on the blockchain
+    * Public var accessed externally via function, internally via the var
+* Use a standard convention of the arrangement of functions in the smart contract - constructor, 
+fallback function, external, public, internal, private
+    * Within a group place the constant functions last
+* visibility modifiers, then custom
+    * modifiers executed in order
+* payable modifier - when sending value to another address
+
+Use modifier declarations for implementing rules
+
+* Implementing rules, policies, regulations
+* Implementing common rules for all who may access a function
+* Declaratively validating application specific conditions
+* Providing auditable elements to allow contract verfication of the correctness of a smart contract
+
+Events
+
+* Use events for notifications
+* Can carry up to 3 index parameters for efficiently indexing the blockchain
+
+Time
+
+* Understand now is an alias block timestamp when the block and the transaction within it are mined
+* Variable now can be used for approximate elapsed time comparison, as we illustrated in the ballot example. However, it is not a good practice to use it for computation within the application logic. Also, variable now provides time to the accuracy of seconds if fine granular time is required, you may have to resort to other mechanisms.
+
+Hashing
+
+* Use secure hashing for protecting data. Recall that hashing is a very important function in a block chain. 
+* Data in the block chain is viewable by all. This means that we may want to secure hash, 
+to protect its visibility. 
+* Solidity provides a variety of built-in functions for standard secure hash functions. 
+Keccak, SHA-256, RIPEMD-160 are Solidity functions available to use for hashing application data.
+
+Remix
+
+* Pay attention to remix static analysis
+* Pay attention to remix console detail
+* Review compile details
+* Review the remix transaction log - save it as json using the floppy disk icon
+
+
+Linkage:
+
+* https://consensys.github.io/smart-contract-best-practices/
+* https://medium.com/@maurelian/beyond-smart-contract-best-practices-for-ux-and-interoperability-6d94d27c1e0f
+* https://lightrains.com/blogs/smart-contract-best-practices-solidity
+
+
+### Programming Assignment - Starting Point
+
+```
+pragma solidity ^0.4.17;
+contract Auction {
+    
+    // Data
+    //Structure to hold details of the item
+    struct Item {
+        uint itemId; // id of the item
+        uint[] itemTokens;  //tokens bid in favor of the item
+       
+    }
+    
+   //Structure to hold the details of a persons
+    struct Person {
+        uint remainingTokens; // tokens remaining with bidder
+        uint personId; // it serves as tokenId as well
+        address addr;//address of the bidder
+    }
+ 
+    mapping(address => Person) tokenDetails; //address to person 
+    Person [4] bidders;//Array containing 4 person objects
+    
+    Item [3] public items;//Array containing 3 item objects
+    address[3] public winners;//Array for address of winners
+    address public beneficiary;//owner of the smart contract
+    
+    uint bidderCount=0;//counter
+    
+    //functions
+
+    function Auction() public payable{    //constructor
+                
+        //Part 1 Task 1. Initialize beneficiary with address of smart contract’s owner
+        //Hint. In the constructor,"msg.sender" is the address of the owner.
+        // ** Start code here. 1 line approximately. **/
+
+          //** End code here. **/
+        uint[] memory emptyArray;
+        items[0] = Item({itemId:0,itemTokens:emptyArray});
+        
+        //Part 1 Task 2. Initialize two items with at index 1 and 2. 
+        // ** Start code here. 2 lines approximately. **/
+        items[1] = 
+        items[2] =
+        //** End code here**/
+    }
+    
+
+    function register() public payable{
+        
+        
+        bidders[bidderCount].personId = bidderCount;
+        
+        //Part 1 Task 3. Initialize the address of the bidder 
+        /*Hint. Here the bidders[bidderCount].addr should be initialized with address of the registrant.*/
+
+        // ** Start code here. 1 line approximately. **/
+
+        //** End code here. **
+        
+        bidders[bidderCount].remainingTokens = 5; // only 5 tokens
+        tokenDetails[msg.sender]=bidders[bidderCount];
+        bidderCount++;
+    }
+    
+    function bid(uint _itemId, uint _count) public payable{
+        /*
+            Bids tokens to a particular item.
+            Arguments:
+            _itemId -- uint, id of the item
+            _count -- uint, count of tokens to bid for the item
+        */
+        
+        /*
+        Part 1 Task 4. Implement the three conditions below.
+            4.1 If the number of tokens remaining with the bidder is < count of tokens bidded, revert.
+            4.2 If there are no tokens remaining with the bidder, revert.
+            4.3 If the id of the item for which bid is placed, is greater than 2, revert.
+
+        Hint: "tokenDetails[msg.sender].remainingTokens" gives the details of the number of tokens remaining with the bidder.
+        */
+        
+        // ** Start code here. 2 lines approximately. **/
+    
+
+        //** End code here. **
+        
+        /*Part 1 Task 5. Decrement the remainingTokens by the number of tokens bid and store the value in balance variable.
+        Hint. "tokenDetails[msg.sender].remainingTokens" should be decremented by "_count". */
+ 
+        // ** Start code here. 1 line approximately. **
+        uint balance=
+        //** End code here. **
+        
+        tokenDetails[msg.sender].remainingTokens=balance;
+        bidders[tokenDetails[msg.sender].personId].remainingTokens=balance;//updating the same balance in bidders map.
+        
+        Item storage bidItem = items[_itemId];
+        for(uint i=0; i<_count;i++) {
+            bidItem.itemTokens.push(tokenDetails[msg.sender].personId);    
+        }
+    }
+    
+    // Part 2 Task 1. Create a modifier named "onlyOwner" to ensure that only owner is allowed to reveal winners
+    //Hint : Use require to validate if "msg.sender" is equal to the "beneficiary".
+    modifier onlyOwner {
+        // ** Start code here. 2 lines approximately. **
+        
+        _;
+        //** End code here. **
+    }
+    
+    
+    function revealWinners() public onlyOwner{
+        
+        /* 
+            Iterate over all the items present in the auction.
+            If at least on person has placed a bid, randomly select          the winner */
+
+        for (uint id = 0; id < 3; id++) {
+            Item storage currentItem=items[id];
+            if(currentItem.itemTokens.length != 0){
+            // generate random# from block number 
+            uint randomIndex = (block.number / currentItem.itemTokens.length)% currentItem.itemTokens.length; 
+            // Obtain the winning tokenId
+
+            uint winnerId = currentItem.itemTokens[randomIndex];
+                
+            /* Part 1 Task 6. Assign the winners.
+            Hint." bidders[winnerId] " will give you the person object with the winnerId.
+            you need to assign the address of the person obtained above to winners[id] */
+
+            // ** Start coding here *** 1 line approximately.
+            
+                    
+            //** end code here*
+                
+            }
+        }
+    } 
+
+  //Miscellaneous methods: Below methods are used to assist Grading. Please DONOT CHANGE THEM.
+    function getPersonDetails(uint id) public constant returns(uint,uint,address){
+        return (bidders[id].remainingTokens,bidders[id].personId,bidders[id].addr);
+    }
+
+}
+```
 
