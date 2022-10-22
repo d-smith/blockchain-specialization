@@ -54,3 +54,23 @@ Linkage
 * https://www.npmjs.com/package/ethereum-ens
 
 
+### Daap Defined
+
+What is a Dapp? A Dapp, or decentralized application,
+solves a problem that requires blockchain services and blockchain
+infrastructure for realizing its purpose.
+
+If you are programmatically assembling
+the Dapp without the help of any development involvement, you copy
+the web3 deploy script into your app, say an HTML JavaScript file as a script. Deploy the smart contract using
+the functions in the script. And invoke the smart contract function
+using the functions in the script, and the ABI, and
+the smart contract address.
+
+web app - use web3 js module for json/rpc interaction with eth rpc port/node
+
+Linkage:
+
+* https://blockchainhub.net/decentralized-applications-dapps/
+* https://www.youtube.com/watch?v=97ufCT6lQcY
+* https://www.freecodecamp.org/news/how-to-transfer-funds-on-the-ethereum-network-using-the-geth-cli-b7eac16aa3a9/
