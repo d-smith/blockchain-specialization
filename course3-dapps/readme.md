@@ -74,3 +74,25 @@ Linkage:
 * https://blockchainhub.net/decentralized-applications-dapps/
 * https://www.youtube.com/watch?v=97ufCT6lQcY
 * https://www.freecodecamp.org/news/how-to-transfer-funds-on-the-ethereum-network-using-the-geth-cli-b7eac16aa3a9/
+
+### EThereum APIs
+
+Management APIs
+
+* includes admin, debug, miner, personal, and txpool 
+    * admin.addPeer()
+    * debug.dumpBlock(16)
+    * miner.start()
+    * personal.newAccount()
+    * txpool.inspect()
+* support methods for management of the geth node
+
+Web 3 APIs
+
+* whisper api - web3.ssh
+* javascript api
+* smart contract deployment
+
+Web 3 Arch
+
+![](dapparch.png)
