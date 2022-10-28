@@ -96,3 +96,7 @@ Web 3 APIs
 Web 3 Arch
 
 ![](dapparch.png)
+
+Linkage
+
+* Plasma - historical - https://ethereum.org/en/developers/docs/scaling/plasma/
