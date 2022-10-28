@@ -100,3 +100,6 @@ Web 3 Arch
 Linkage
 
 * Plasma - historical - https://ethereum.org/en/developers/docs/scaling/plasma/
+* https://cointelegraph.com/news/worlds-first-dapi-decentralized-application-programming-interface
+* https://web3js.readthedocs.io/en/v1.2.9/
+* https://gavofyork.gitbooks.io/turboethereum/content/cli_tools.html
