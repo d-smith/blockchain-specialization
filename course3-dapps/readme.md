@@ -103,3 +103,33 @@ Linkage
 * https://cointelegraph.com/news/worlds-first-dapi-decentralized-application-programming-interface
 * https://web3js.readthedocs.io/en/v1.2.9/
 * https://gavofyork.gitbooks.io/turboethereum/content/cli_tools.html
+
+
+## Week 2 Truffle IDE
+
+### Truffle
+
+All inclusive IDE - local chain, templates, etc.
+
+Design process
+
+* Design the data and operations
+* Add modifiers and validation checks
+* Contract test
+* Add front end component
+* Test full app
+
+Structure: name, data, modifiers, functions
+
+Truffle
+
+* truffle init
+* truffle compile
+* truffle develop - create local test net
+* truffle migrate
+* truffle test
+
+Node.js, truffle via npm, metamask - can use VM for this course
+
+
+
