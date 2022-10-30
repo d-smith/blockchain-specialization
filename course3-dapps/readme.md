@@ -131,5 +131,14 @@ Truffle
 
 Node.js, truffle via npm, metamask - can use VM for this course
 
+For the Ballot1 example
 
+* Create a Ballot1 dir and cd into it
+* truffle init
 
+migrations - smart contract to take care of deployments and updates
+
+VM Ware installer - https://www.vmware.com/products/workstation-player/workstation-player-evaluation.html
+
+ sudo npm install -g truffle@4.1.15
+ 
