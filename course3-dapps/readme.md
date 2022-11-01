@@ -243,3 +243,33 @@ contract Migrations {
 ```
 
 
+VM Ware - to tab out once the mouse is captured... ctl + alt, the alt + tab
+
+truffle.js file
+
+```
+development: {
+    host: "127.0.0.1",     // Localhost (default: none)
+    port: 9545,            // Standard Ethereum port (default: none)
+    network_id: "*",       // Any network (default: none)
+}
+```
+
+migration file
+
+```
+var Ballot = artifacts.require("Ballot");
+
+module.exports = function(deployer) {
+  deployer.deploy(Ballot);
+};
+```
+
+
+```
+truffle develop
+truffle migrate --reset
+```
+
+console - CLI for interacting with contract, node APIs, etc
+     
