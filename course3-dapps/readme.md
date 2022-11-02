@@ -272,4 +272,11 @@ truffle migrate --reset
 ```
 
 console - CLI for interacting with contract, node APIs, etc
+
+Linkage:
+
+* https://www.trufflesuite.com/guides
+* https://sites.tufts.edu/cbi/files/2013/01/linux_cheat_sheet.pdf
+
+
      
